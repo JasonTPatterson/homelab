@@ -1,7 +1,6 @@
-[README.md](https://github.com/user-attachments/files/28294946/README.md)
 # Homelab
 
-A production-grade home lab running on a Raspberry Pi 4, providing network-wide ad blocking, remote access, game hosting, and full-stack service monitoring — all self-hosted and self-managed.
+A self-hosted infrastructure lab running on a Raspberry Pi 4, providing network-wide ad blocking, remote access, game hosting, and full-stack service monitoring — all self-hosted and self-managed.
 
 ---
 
@@ -85,6 +84,32 @@ Monitoring  Uptime Kuma + Homepage
 - Uptime Kuma monitors all services with alerting
 - Portainer provides a UI for container lifecycle management without needing SSH for routine ops
 - Tailscale exit node means the Pi is the single outbound path for remote sessions — full tunnel, not split
+
+---
+
+## Skills Demonstrated
+
+- Linux system administration
+- Docker container orchestration
+- DNS and network configuration
+- VPN deployment and remote networking
+- Service monitoring and uptime management
+- Infrastructure troubleshooting
+- Self-hosted service management
+- ARM64/x86_64 compatibility handling
+- AI-assisted workflows and troubleshooting
+
+---
+
+## Planned Improvements
+
+- Automated world backups (Minecraft)
+- Reverse proxy implementation
+- SSL/TLS for internal services
+- Infrastructure as Code deployment
+- Centralized logging
+- Zero 2W dedicated PiHole/Tailscale node
+- BMO — local AI agent on Pi 5
 
 ---
 
