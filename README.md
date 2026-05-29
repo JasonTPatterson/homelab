@@ -18,15 +18,16 @@ A self-hosted infrastructure lab running on a Raspberry Pi 4, providing network-
 
 ## Services
 
-| Service | Purpose | Port |
+| Service | Purpose | Access |
 |---|---|---|
-| [Pi-hole v6](https://pi-hole.net/) | Network-wide DNS ad blocking | 80 (admin UI) |
+| [Pi-hole v6](https://pi-hole.net/) | Network-wide DNS ad blocking | https://pihole.home |
 | [Tailscale](https://tailscale.com/) | Mesh VPN + exit node | — (WireGuard UDP) |
 | [Minecraft BDS](https://www.minecraft.net/en-us/download/server/bedrock) | Bedrock Dedicated Server (box64) | 19132 UDP |
-| [Portainer](https://www.portainer.io/) | Docker container management | 9443 (HTTPS) |
-| [Uptime Kuma](https://github.com/louislam/uptime-kuma) | Service health monitoring | 3001 |
-| [Homepage](https://gethomepage.dev/) | Live dashboard | 3000 |
-| [Homarr](https://homarr.dev/) | Dashboard (secondary) | 7575 |
+| [Portainer](https://www.portainer.io/) | Docker container management | https://portainer.home |
+| [Uptime Kuma](https://github.com/louislam/uptime-kuma) | Service health monitoring | https://uptime-kuma.home |
+| [Homepage](https://gethomepage.dev/) | Live dashboard | https://homepage.home |
+| [Homarr](https://homarr.dev/) | Dashboard (secondary) | https://homarr.home |
+| [Traefik](https://traefik.io/) | Reverse proxy + HTTPS | https://traefik.home |
 
 ---
 
@@ -41,9 +42,11 @@ ISP (2 Gbps fiber)
         └── Gigabit LAN → Raspberry Pi 4
 ```
 
-**DNS:** Router DHCP pushes `192.168.1.139` as the upstream DNS resolver for every device on the network. All queries pass through Pi-hole before forwarding to upstream resolvers.
+**DNS:** Router DHCP pushes `192.168.1.139` as the upstream DNS resolver for every device on the network. All queries pass through Pi-hole before forwarding to upstream resolvers. Custom `.home` local DNS records served via Pi-hole for internal service discovery.
 
 **VPN:** Tailscale exit node enables full tunnel remote access — all traffic routes through the Pi from any device, anywhere.
+
+**Reverse Proxy:** Traefik routes all internal services via `.home` domains with self-signed HTTPS. No more IP:port access — every service has a clean URL.
 
 ---
 
@@ -67,12 +70,13 @@ Official Bedrock Dedicated Server running on ARM64 via **box64** x86_64 emulatio
 ## Stack
 
 ```
-OS          Debian 12 (Raspberry Pi OS)
-Runtime     Docker + Docker Compose v2
-Emulation   box64 (x86_64 → ARM64)
-VPN         Tailscale (WireGuard)
-DNS         Pi-hole v6
-Monitoring  Uptime Kuma + Homepage
+OS             Debian 12 (Raspberry Pi OS)
+Runtime        Docker + Docker Compose v2
+Emulation      box64 (x86_64 → ARM64)
+VPN            Tailscale (WireGuard)
+DNS            Pi-hole v6
+Reverse Proxy  Traefik (file provider, HTTPS)
+Monitoring     Uptime Kuma + Homepage
 ```
 
 ---
@@ -80,6 +84,7 @@ Monitoring  Uptime Kuma + Homepage
 ## Infrastructure Notes
 
 - All persistent service data is bind-mounted to host directories — no anonymous Docker volumes
+- Traefik routes all services via `.home` domains using file provider with hot-reload
 - Homepage configured with live Pi-hole stats (v6 API), Open-Meteo weather, system resource monitoring
 - Uptime Kuma monitors all services with alerting
 - Portainer provides a UI for container lifecycle management without needing SSH for routine ops
@@ -91,6 +96,7 @@ Monitoring  Uptime Kuma + Homepage
 
 - Linux system administration
 - Docker container orchestration
+- Reverse proxy configuration (Traefik)
 - DNS and network configuration
 - VPN deployment and remote networking
 - Service monitoring and uptime management
@@ -104,8 +110,8 @@ Monitoring  Uptime Kuma + Homepage
 ## Planned Improvements
 
 - Automated world backups (Minecraft)
-- Reverse proxy implementation
-- SSL/TLS for internal services
+- ~~Reverse proxy implementation~~ ✅ Traefik deployed
+- ~~SSL/TLS for internal services~~ ✅ Self-signed HTTPS on all services
 - Infrastructure as Code deployment
 - Centralized logging
 - Zero 2W dedicated PiHole/Tailscale node
@@ -114,3 +120,4 @@ Monitoring  Uptime Kuma + Homepage
 ---
 
 *Self-hosted. Self-managed. Self-taught.*
+```
