@@ -81,6 +81,10 @@ Monitoring     Uptime Kuma + Homepage
 
 ---
 
+## <img width="840" height="965" alt="Homepage_Screenshot" src="https://github.com/user-attachments/assets/aa117ea0-0e68-4480-a158-c51dc8dda94c" />
+
+---
+
 ## Infrastructure Notes
 
 - All persistent service data is bind-mounted to host directories — no anonymous Docker volumes
@@ -121,4 +125,3 @@ Monitoring     Uptime Kuma + Homepage
 
 *Self-hosted. Self-managed. Self-taught.*
 ```
-<img width="840" height="965" alt="Homepage_Screenshot" src="https://github.com/user-attachments/assets/aa117ea0-0e68-4480-a158-c51dc8dda94c" />
