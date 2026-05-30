@@ -121,3 +121,4 @@ Monitoring     Uptime Kuma + Homepage
 
 *Self-hosted. Self-managed. Self-taught.*
 ```
+<img width="1680" height="1930" alt="image" src="https://github.com/user-attachments/assets/5245ccb6-2e5b-4986-84a0-28b4c707b52c" />
