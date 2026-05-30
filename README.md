@@ -84,7 +84,7 @@ Monitoring     Uptime Kuma + Homepage
 ## Infrastructure Notes
 
 - All persistent service data is bind-mounted to host directories — no anonymous Docker volumes
-- Traefik routes all services via `.home` domains using file provider with hot-reload
+- Traefik introduced as reverse proxy to centralize service routing and eliminate IP:port access patterns, moving toward production-style internal service architecture
 - Homepage configured with live Pi-hole stats (v6 API), Open-Meteo weather, system resource monitoring
 - Uptime Kuma monitors all services with alerting
 - Portainer provides a UI for container lifecycle management without needing SSH for routine ops
