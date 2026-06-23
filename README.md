@@ -42,7 +42,7 @@ ISP (2 Gbps fiber)
         └── Gigabit LAN → Raspberry Pi 4
 ```
 
-**DNS:** Router DHCP pushes `192.168.1.139` as the upstream DNS resolver for every device on the network. All queries pass through Pi-hole before forwarding to upstream resolvers. Custom `.home` local DNS records served via Pi-hole for internal service discovery.
+**DNS:** Router DHCP pushes `192.168.1.139` as the upstream DNS resolver for every device on the network. All queries pass through Pi-hole before forwarding to upstream resolvers. Custom .home DNS records served via Pi-hole for internal service discovery
 
 **VPN:** Tailscale exit node enables full tunnel remote access — all traffic routes through the Pi from any device, anywhere.
 
@@ -116,7 +116,7 @@ Monitoring     Uptime Kuma + Homepage
 - Automated world backups (Minecraft)
 - ~~Reverse proxy implementation~~ ✅ Traefik deployed
 - ~~SSL/TLS for internal services~~ ✅ Self-signed HTTPS on all services
-- Infrastructure as Code deployment
+- Migrate entire Docker Compose stack to Ansible playbooks or Terraform configurations
 - Centralized logging
 - Zero 2W dedicated PiHole/Tailscale node
 - BMO — local AI agent on Pi 5
