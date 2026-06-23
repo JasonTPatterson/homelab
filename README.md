@@ -113,7 +113,7 @@ Monitoring     Uptime Kuma + Homepage
 
 ## Planned Improvements
 
-- Automated world backups (Minecraft)
+- ~~Automated world backups (Minecraft)~~ ✅ Daily cron job with timestamped archives
 - ~~Reverse proxy implementation~~ ✅ Traefik deployed
 - ~~SSL/TLS for internal services~~ ✅ Self-signed HTTPS on all services
 - Migrate entire Docker Compose stack to Ansible playbooks or Terraform configurations
