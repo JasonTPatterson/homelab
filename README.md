@@ -42,7 +42,7 @@ ISP (2 Gbps fiber)
         └── Gigabit LAN → Raspberry Pi 4
 ```
 
-**DNS:** Router DHCP pushes `192.168.1.139` as the upstream DNS resolver for every device on the network. All queries pass through Pi-hole before forwarding to upstream resolvers. Custom .home DNS records served via Pi-hole for internal service discovery
+**DNS:** Router DHCP pushes `192.168.1.139` as the upstream DNS resolver for every device on the network. All queries pass through Pi-hole before forwarding to upstream resolvers. Custom `.home` DNS records served via Pi-hole for internal service discovery
 
 **VPN:** Tailscale exit node enables full tunnel remote access — all traffic routes through the Pi from any device, anywhere.
 
