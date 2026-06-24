@@ -1,0 +1,45 @@
+---
+- name: Homelab Provisioning Playbook
+  hosts: homelab
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - wget
+          - unzip
+          - git
+        state: present
+
+    - name: Ensure Docker is running
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Add jloading to docker group
+      user:
+        name: jloading
+        groups: docker
+        append: yes
+
+    - name: Create homelab directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: jloading
+        group: jloading
+        mode: '0755'
+      loop:
+        - /home/jloading/traefik
+        - /home/jloading/homepage
+        - /home/jloading/homarr
+        - /home/jloading/portainer
+        - /home/jloading/uptime-kuma
+        - /home/jloading/backups/minecraft
