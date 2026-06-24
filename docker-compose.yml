@@ -114,8 +114,10 @@ services:
 
 volumes:
   portainer_data:
-    external: true
+    external:
+      name: portainer_data
 
 networks:
   traefik_proxy:
-    external: true
+    external:
+      name: traefik_proxy
