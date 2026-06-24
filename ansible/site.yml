@@ -17,6 +17,17 @@
           - git
         state: present
 
+    - name: Download Docker installation script
+      get_url:
+        url: https://get.docker.com
+        dest: /tmp/get-docker.sh
+        mode: '0700'
+
+    - name: Run Docker installation script
+      command: sh /tmp/get-docker.sh
+      args:
+        creates: /usr/bin/docker
+
     - name: Ensure Docker is running
       systemd:
         name: docker
@@ -43,3 +54,7 @@
         - /home/jloading/portainer
         - /home/jloading/uptime-kuma
         - /home/jloading/backups/minecraft
+    - name: Deploy Homelab Stack via Docker Compose
+      community.docker.docker_compose_v2:
+        project_src: /home/jloading/
+        state: present

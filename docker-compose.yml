@@ -1,0 +1,121 @@
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:v3.1
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/config:/config:ro
+      - ./traefik/certs:/certs
+      - ./traefik/logs:/logs
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=false"
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: always
+    command: --http-enabled
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - portainer_data:/data
+    ports:
+      - "9443:9443"
+    expose:
+      - "9000"
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.home`)"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.tls=true"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.services.portainer.loadbalancer.server.scheme=http"
+
+  homepage:
+    container_name: homepage
+    image: ghcr.io/gethomepage/homepage:latest
+    restart: always
+    volumes:
+      - /home/jloading/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - HOMEPAGE_ALLOWED_HOSTS=homepage.home,192.168.1.139:3000
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.rule=Host(`homepage.home`)"
+      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage.tls=true"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/jloading/homarr/configs:/app/data/configs
+      - /home/jloading/homarr/data:/data
+    environment:
+      - PORT=7575
+      - DATABASE_URL=file:/data/db.sqlite
+      - AUTH_TRUST_HOST=true
+    ports:
+      - "7575:7575"
+    expose:
+      - "7575"
+    networks:
+      - traefik_proxy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://$(hostname -i | awk '{print $1}'):7575 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homarr.rule=Host(`homarr.home`)"
+      - "traefik.http.routers.homarr.entrypoints=websecure"
+      - "traefik.http.routers.homarr.tls=true"
+      - "traefik.http.services.homarr.loadbalancer.server.port=7575"
+
+  uptime-kuma:
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:1
+    restart: always
+    volumes:
+      - /home/jloading/uptime-kuma/data:/app/data
+    ports:
+      - "3001:3001"
+    expose:
+      - "3001"
+    networks:
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`uptime-kuma.home`)"
+      - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
+      - "traefik.http.routers.uptime-kuma.tls=true"
+      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
+
+volumes:
+  portainer_data:
+    external: true
+
+networks:
+  traefik_proxy:
+    external: true
