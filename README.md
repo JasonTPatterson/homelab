@@ -116,7 +116,7 @@ Monitoring     Uptime Kuma + Homepage
 - ~~Automated world backups (Minecraft)~~ ✅ Daily cron job with timestamped archives
 - ~~Reverse proxy implementation~~ ✅ Traefik deployed
 - ~~SSL/TLS for internal services~~ ✅ Self-signed HTTPS on all services
-- Migrate entire Docker Compose stack to Ansible playbooks or Terraform configurations
+- ~Migrate entire Docker Compose stack to Ansible playbooks or Terraform configurations~ ✅
 - Centralized logging
 - Zero 2W dedicated PiHole/Tailscale node
 - BMO — local AI agent on Pi 5
